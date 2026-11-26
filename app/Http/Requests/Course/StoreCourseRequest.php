@@ -2,28 +2,25 @@
 
 namespace App\Http\Requests\Course;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCourseRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'duration' => 'required|integer|min:1',
+            'fee' => 'required|numeric|min:0|max:999999.99',
+            'difficulty' => ['required', Rule::in(['Easy', 'Medium', 'Hard'])],
+            'is_active' => 'boolean',
         ];
     }
 }
